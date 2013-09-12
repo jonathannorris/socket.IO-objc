@@ -225,7 +225,7 @@ static NSString* kSecureXHRPortURL = @"https://%@:%d/socket.io/1/xhr-polling/%@"
             }
         }];
 
-        NSLog(@"Parsed a payload!");
+        DEBUGLOG(@"Parsed a payload!");
         return packets;
     } else {
         // Regular single-packet payload
