@@ -21,12 +21,12 @@
 //    taiyangc  https://github.com/taiyangc
 //
 
-#import "SocketIO.h"
-#import "SocketIOPacket.h"
-#import "SocketIOJSONSerialization.h"
+#import "LP_SocketIO.h"
+#import "LP_SocketIOPacket.h"
+#import "LP_SocketIOJSONSerialization.h"
 
-#import "SocketIOTransportWebsocket.h"
-#import "SocketIOTransportXHR.h"
+#import "LP_SocketIOTransportWebsocket.h"
+#import "LP_SocketIOTransportXHR.h"
 
 #define DEBUG_LOGS 1
 #define DEBUG_CERTIFICATE 1
@@ -49,19 +49,19 @@ NSString* const SocketIOException = @"SocketIOException";
 # pragma mark -
 # pragma mark SocketIO's private interface
 
-@interface SocketIO (Private)
+@interface LP_SocketIO (Private)
 
 - (NSArray*) arrayOfCaptureComponentsMatchedByRegex:(NSString*)regex;
 
 - (void) setTimeout;
 - (void) onTimeout;
 
-- (void) onConnect:(SocketIOPacket *)packet;
+- (void) onConnect:(LP_SocketIOPacket *)packet;
 - (void) onDisconnect:(NSError *)error;
 
 - (void) sendDisconnect;
 - (void) sendHearbeat;
-- (void) send:(SocketIOPacket *)packet;
+- (void) send:(LP_SocketIOPacket *)packet;
 
 - (NSString *) addAcknowledge:(SocketIOCallback)function;
 - (void) removeAcknowledgeForKey:(NSString *)key;
@@ -72,7 +72,7 @@ NSString* const SocketIOException = @"SocketIOException";
 # pragma mark -
 # pragma mark SocketIO implementation
 
-@implementation SocketIO
+@implementation LP_SocketIO
 
 @synthesize isConnected = _isConnected, 
             isConnecting = _isConnecting, 
@@ -199,7 +199,7 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) sendMessage:(NSString *)data withAcknowledge:(SocketIOCallback)function
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"message"];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"message"];
     packet.data = data;
     packet.pId = [self addAcknowledge:function];
     [self send:packet];
@@ -212,8 +212,8 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) sendJSON:(NSDictionary *)data withAcknowledge:(SocketIOCallback)function
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"json"];
-    packet.data = [SocketIOJSONSerialization JSONStringFromObject:data error:nil];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"json"];
+    packet.data = [LP_SocketIOJSONSerialization JSONStringFromObject:data error:nil];
     packet.pId = [self addAcknowledge:function];
     [self send:packet];
 }
@@ -232,8 +232,8 @@ NSString* const SocketIOException = @"SocketIOException";
         [dict setObject:[NSArray arrayWithObject:data] forKey:@"args"];
     }
     
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"event"];
-    packet.data = [SocketIOJSONSerialization JSONStringFromObject:dict error:nil];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"event"];
+    packet.data = [LP_SocketIOJSONSerialization JSONStringFromObject:dict error:nil];
     packet.pId = [self addAcknowledge:function];
     if (function) {
         packet.ack = @"data";
@@ -243,8 +243,8 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) sendAcknowledgement:(NSString *)pId withArgs:(NSArray *)data 
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"ack"];
-    packet.data = [SocketIOJSONSerialization JSONStringFromObject:data error:nil];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"ack"];
+    packet.data = [LP_SocketIOJSONSerialization JSONStringFromObject:data error:nil];
     packet.pId = pId;
     packet.ack = @"data";
 
@@ -261,24 +261,24 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) sendDisconnect
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"disconnect"];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"disconnect"];
     [self send:packet];
     [self onDisconnect:nil];
 }
 
 - (void) sendConnect
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"connect"];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"connect"];
     [self send:packet];
 }
 
 - (void) sendHeartbeat
 {
-    SocketIOPacket *packet = [[SocketIOPacket alloc] initWithType:@"heartbeat"];
+    LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithType:@"heartbeat"];
     [self send:packet];
 }
 
-- (void) send:(SocketIOPacket *)packet
+- (void) send:(LP_SocketIOPacket *)packet
 {
     if (![self isConnected] && ![self isConnecting]) {
         DEBUGLOG(@"Already disconnected!");
@@ -337,13 +337,13 @@ NSString* const SocketIOException = @"SocketIOException";
     
     // TODO send all packets at once ... not as seperate packets
     while ([_queue count] > 0) {
-        SocketIOPacket *packet = [_queue objectAtIndex:0];
+        LP_SocketIOPacket *packet = [_queue objectAtIndex:0];
         [self send:packet];
         [_queue removeObject:packet];
     }
 }
 
-- (void) onConnect:(SocketIOPacket *)packet
+- (void) onConnect:(LP_SocketIOPacket *)packet
 {
     DEBUGLOG(@"onConnect()");
     
@@ -425,7 +425,7 @@ NSString* const SocketIOException = @"SocketIOException";
                               0,
                               0);
     
-    __weak SocketIO *weakSelf = self;
+    __weak LP_SocketIO *weakSelf = self;
     
     dispatch_source_set_event_handler(_timeout, ^{
         [weakSelf onTimeout];
@@ -486,7 +486,7 @@ NSString* const SocketIOException = @"SocketIOException";
         NSArray *result = [test objectAtIndex:0];
         
         int idx = [[result objectAtIndex:1] intValue];
-        SocketIOPacket *packet = [[SocketIOPacket alloc] initWithTypeIndex:idx];
+        LP_SocketIOPacket *packet = [[LP_SocketIOPacket alloc] initWithTypeIndex:idx];
         
         packet.pId = [result objectAtIndex:2];
         
@@ -559,7 +559,7 @@ NSString* const SocketIOException = @"SocketIOException";
                     NSString *argsStr = [piece objectAtIndex:3];
                     id argsData = nil;
                     if (argsStr && ![argsStr isEqualToString:@""]) {
-                        argsData = [SocketIOJSONSerialization objectFromJSONData:[argsStr dataUsingEncoding:NSUTF8StringEncoding] error:nil];
+                        argsData = [LP_SocketIOJSONSerialization objectFromJSONData:[argsStr dataUsingEncoding:NSUTF8StringEncoding] error:nil];
                         // either send complete response or only the first arg to callback
                         if (!_returnAllDataFromAck && [argsData count] > 0) {
                             argsData = [argsData objectAtIndex:0];
@@ -743,11 +743,11 @@ NSString* const SocketIOException = @"SocketIOException";
         
         if ([transports indexOfObject:@"websocket"] != NSNotFound) {
             DEBUGLOG(@"websocket supported -> using it now");
-            _transport = [[SocketIOTransportWebsocket alloc] initWithDelegate:self];
+            _transport = [[LP_SocketIOTransportWebsocket alloc] initWithDelegate:self];
         }
         else if ([transports indexOfObject:@"xhr-polling"] != NSNotFound) {
             DEBUGLOG(@"xhr polling supported -> using it now");
-            _transport = [[SocketIOTransportXHR alloc] initWithDelegate:self];
+            _transport = [[LP_SocketIOTransportXHR alloc] initWithDelegate:self];
         }
         else {
             DEBUGLOG(@"no transport found that is supported :( -> fail");

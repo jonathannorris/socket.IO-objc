@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SocketIOTransportDelegate <NSObject>
+@protocol LP_SocketIOTransportDelegate <NSObject>
 
 - (void) onData:(id)message;
 - (void) onDisconnect:(NSError*)error;
@@ -37,14 +37,14 @@
 
 @end
 
-@protocol SocketIOTransport <NSObject>
+@protocol LP_SocketIOTransport <NSObject>
 
-- (id) initWithDelegate:(id <SocketIOTransportDelegate>)delegate;
+- (id) initWithDelegate:(id <LP_SocketIOTransportDelegate>)delegate;
 - (void) open;
 - (void) close;
 - (BOOL) isReady;
 - (void) send:(NSString *)request;
 
-@property (nonatomic, weak) id <SocketIOTransportDelegate> delegate;
+@property (nonatomic, weak) id <LP_SocketIOTransportDelegate> delegate;
 
 @end

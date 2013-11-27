@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SocketIOJSONSerialization : NSObject
+@interface LP_SocketIOJSONSerialization : NSObject
 
 + (id) objectFromJSONData:(NSData *)data error:(NSError **)error;
 + (NSString *) JSONStringFromObject:(id)object error:(NSError **)error;

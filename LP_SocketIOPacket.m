@@ -21,10 +21,10 @@
 //    taiyangc  https://github.com/taiyangc
 //
 
-#import "SocketIOPacket.h"
-#import "SocketIOJSONSerialization.h"
+#import "LP_SocketIOPacket.h"
+#import "LP_SocketIOJSONSerialization.h"
 
-@implementation SocketIOPacket
+@implementation LP_SocketIOPacket
 
 @synthesize type, pId, name, ack, data, args, endpoint;
 
@@ -68,7 +68,7 @@
 {
     if (self.data) {
         NSData *utf8Data = [self.data dataUsingEncoding:NSUTF8StringEncoding];
-        return [SocketIOJSONSerialization objectFromJSONData:utf8Data error:nil];
+        return [LP_SocketIOJSONSerialization objectFromJSONData:utf8Data error:nil];
     }
     else {
         return nil;

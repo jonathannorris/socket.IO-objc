@@ -21,8 +21,8 @@
 //    taiyangc  https://github.com/taiyangc
 //
 
-#import "SocketIOTransportXHR.h"
-#import "SocketIO.h"
+#import "LP_SocketIOTransportXHR.h"
+#import "LP_SocketIO.h"
 
 #define DEBUG_LOGS 0
 
@@ -37,18 +37,18 @@ static NSString* kSecureXHRURL = @"https://%@/socket.io/1/xhr-polling/%@";
 static NSString* kInsecureXHRPortURL = @"http://%@:%d/socket.io/1/xhr-polling/%@";
 static NSString* kSecureXHRPortURL = @"https://%@:%d/socket.io/1/xhr-polling/%@";
 
-@interface SocketIOTransportXHR (Private)
+@interface LP_SocketIOTransportXHR (Private)
 - (void) checkAndStartPoll;
 - (void) poll:(NSString *)data;
 - (void) poll:(NSString *)data retryNumber:(int)retry;
 @end
 
-@implementation SocketIOTransportXHR
+@implementation LP_SocketIOTransportXHR
 
 @synthesize delegate,
             isClosed = _isClosed;
 
-- (id) initWithDelegate:(id<SocketIOTransportDelegate>)delegate_
+- (id) initWithDelegate:(id<LP_SocketIOTransportDelegate>)delegate_
 {
     self = [super init];
     if (self) {
