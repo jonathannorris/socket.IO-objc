@@ -1,5 +1,5 @@
 //
-//  SocketIOTransportWebsocket.h
+//  SocketIOTransportXHR.h
 //  v0.4.1 ARC
 //
 //  based on
@@ -23,14 +23,17 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LP_SRWebSocket.h"
-#import "LP_SocketIOTransport.h"
+#import "TL_SocketIOTransport.h"
 
-@interface LP_SocketIOTransportWebsocket : NSObject <LP_SocketIOTransport, LP_SRWebSocketDelegate>
+@interface TL_SocketIOTransportXHR : NSObject <TL_SocketIOTransport, NSURLConnectionDelegate>
 {
-    LP_SRWebSocket *_webSocket;
+    NSString *_url;
+    NSMutableData *_data;
+    NSMutableDictionary *_polls;
+    BOOL _isClosed;
 }
 
-@property (nonatomic, weak) id <LP_SocketIOTransportDelegate> delegate;
+@property (nonatomic, weak) id <TL_SocketIOTransportDelegate> delegate;
+@property (nonatomic) BOOL isClosed;
 
 @end

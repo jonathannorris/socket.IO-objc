@@ -21,7 +21,7 @@
 //    taiyangc  https://github.com/taiyangc
 //
 
-#import "LP_SocketIOJSONSerialization.h"
+#import "TL_SocketIOJSONSerialization.h"
 
 extern NSString * const SocketIOException;
 
@@ -40,7 +40,7 @@ extern NSString * const SocketIOException;
 
 @end
 
-@implementation LP_SocketIOJSONSerialization
+@implementation TL_SocketIOJSONSerialization
 
 + (id) objectFromJSONData:(NSData *)data error:(NSError **)error {
     Class serializer;

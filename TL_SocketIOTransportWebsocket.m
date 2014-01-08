@@ -21,8 +21,8 @@
 //    taiyangc  https://github.com/taiyangc
 //
 
-#import "LP_SocketIOTransportWebsocket.h"
-#import "LP_SocketIO.h"
+#import "TL_SocketIOTransportWebsocket.h"
+#import "TL_SocketIO.h"
 
 #define DEBUG_LOGS 0
 
@@ -37,11 +37,11 @@ static NSString* kSecureSocketURL = @"wss://%@/socket.io/1/websocket/%@";
 static NSString* kInsecureSocketPortURL = @"ws://%@:%d/socket.io/1/websocket/%@";
 static NSString* kSecureSocketPortURL = @"wss://%@:%d/socket.io/1/websocket/%@";
 
-@implementation LP_SocketIOTransportWebsocket
+@implementation TL_SocketIOTransportWebsocket
 
 @synthesize delegate;
 
-- (id) initWithDelegate:(id<LP_SocketIOTransportDelegate>)delegate_
+- (id) initWithDelegate:(id<TL_SocketIOTransportDelegate>)delegate_
 {
     self = [super init];
     if (self) {
@@ -71,7 +71,7 @@ static NSString* kSecureSocketPortURL = @"wss://%@:%d/socket.io/1/websocket/%@";
     
     _webSocket = nil;
     
-    _webSocket = [[LP_SRWebSocket alloc] initWithURL:url];
+    _webSocket = [[TL_SRWebSocket alloc] initWithURL:url];
     _webSocket.delegate = self;
     DEBUGLOG(@"Opening %@", url);
     [_webSocket open];
@@ -97,19 +97,19 @@ static NSString* kSecureSocketPortURL = @"wss://%@:%d/socket.io/1/websocket/%@";
 # pragma mark -
 # pragma mark WebSocket Delegate Methods
 
-- (void) webSocket:(LP_SRWebSocket *)webSocket didReceiveMessage:(id)message
+- (void) webSocket:(TL_SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
     if([delegate respondsToSelector:@selector(onData:)]) {
         [delegate onData:message];
     }
 }
 
-- (void) webSocketDidOpen:(LP_SRWebSocket *)webSocket
+- (void) webSocketDidOpen:(TL_SRWebSocket *)webSocket
 {
     DEBUGLOG(@"Socket opened.");
 }
 
-- (void) webSocket:(LP_SRWebSocket *)webSocket didFailWithError:(NSError *)error
+- (void) webSocket:(TL_SRWebSocket *)webSocket didFailWithError:(NSError *)error
 {
     DEBUGLOG(@"Socket failed with error ... %@", [error localizedDescription]);
     // Assuming this resulted in a disconnect
@@ -118,7 +118,7 @@ static NSString* kSecureSocketPortURL = @"wss://%@:%d/socket.io/1/websocket/%@";
     }
 }
 
-- (void) webSocket:(LP_SRWebSocket *)webSocket
+- (void) webSocket:(TL_SRWebSocket *)webSocket
   didCloseWithCode:(NSInteger)code
             reason:(NSString *)reason
           wasClean:(BOOL)wasClean

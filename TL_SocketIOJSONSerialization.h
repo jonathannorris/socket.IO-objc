@@ -1,5 +1,5 @@
 //
-//  SocketIOTransportXHR.h
+//  SocketIOJSONSerialization.h
 //  v0.4.1 ARC
 //
 //  based on
@@ -23,17 +23,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LP_SocketIOTransport.h"
+@interface TL_SocketIOJSONSerialization : NSObject
 
-@interface LP_SocketIOTransportXHR : NSObject <LP_SocketIOTransport, NSURLConnectionDelegate>
-{
-    NSString *_url;
-    NSMutableData *_data;
-    NSMutableDictionary *_polls;
-    BOOL _isClosed;
-}
-
-@property (nonatomic, weak) id <LP_SocketIOTransportDelegate> delegate;
-@property (nonatomic) BOOL isClosed;
++ (id) objectFromJSONData:(NSData *)data error:(NSError **)error;
++ (NSString *) JSONStringFromObject:(id)object error:(NSError **)error;
 
 @end

@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LP_SocketIOPacket : NSObject
+@interface TL_SocketIOPacket : NSObject
 {
     NSString *type;
     NSString *pId;

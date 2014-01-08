@@ -23,10 +23,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LP_SocketIOTransport.h"
+#import "TL_SocketIOTransport.h"
 
-@class LP_SocketIO;
-@class LP_SocketIOPacket;
+@class TL_SocketIO;
+@class TL_SocketIOPacket;
 
 typedef void(^SocketIOCallback)(id argsData);
 
@@ -45,21 +45,21 @@ typedef enum {
 
 @protocol SocketIODelegate <NSObject>
 @optional
-- (void) socketIODidConnect:(LP_SocketIO *)socket;
-- (void) socketIODidDisconnect:(LP_SocketIO *)socket disconnectedWithError:(NSError *)error;
-- (void) socketIO:(LP_SocketIO *)socket didReceiveMessage:(LP_SocketIOPacket *)packet;
-- (void) socketIO:(LP_SocketIO *)socket didReceiveJSON:(LP_SocketIOPacket *)packet;
-- (void) socketIO:(LP_SocketIO *)socket didReceiveEvent:(LP_SocketIOPacket *)packet;
-- (void) socketIO:(LP_SocketIO *)socket didSendMessage:(LP_SocketIOPacket *)packet;
-- (void) socketIO:(LP_SocketIO *)socket onError:(NSError *)error;
+- (void) socketIODidConnect:(TL_SocketIO *)socket;
+- (void) socketIODidDisconnect:(TL_SocketIO *)socket disconnectedWithError:(NSError *)error;
+- (void) socketIO:(TL_SocketIO *)socket didReceiveMessage:(TL_SocketIOPacket *)packet;
+- (void) socketIO:(TL_SocketIO *)socket didReceiveJSON:(TL_SocketIOPacket *)packet;
+- (void) socketIO:(TL_SocketIO *)socket didReceiveEvent:(TL_SocketIOPacket *)packet;
+- (void) socketIO:(TL_SocketIO *)socket didSendMessage:(TL_SocketIOPacket *)packet;
+- (void) socketIO:(TL_SocketIO *)socket onError:(NSError *)error;
 
 // TODO: deprecated -> to be removed
-- (void) socketIO:(LP_SocketIO *)socket failedToConnectWithError:(NSError *)error __attribute__((deprecated));
-- (void) socketIOHandshakeFailed:(LP_SocketIO *)socket __attribute__((deprecated));
+- (void) socketIO:(TL_SocketIO *)socket failedToConnectWithError:(NSError *)error __attribute__((deprecated));
+- (void) socketIOHandshakeFailed:(TL_SocketIO *)socket __attribute__((deprecated));
 @end
 
 
-@interface LP_SocketIO : NSObject <NSURLConnectionDelegate, LP_SocketIOTransportDelegate>
+@interface TL_SocketIO : NSObject <NSURLConnectionDelegate, TL_SocketIOTransportDelegate>
 {
     NSString *_host;
     NSInteger _port;
@@ -69,7 +69,7 @@ typedef enum {
     
     __weak id<SocketIODelegate> _delegate;
     
-    NSObject <LP_SocketIOTransport> *_transport;
+    NSObject <TL_SocketIOTransport> *_transport;
     
     BOOL _isConnected;
     BOOL _isConnecting;
