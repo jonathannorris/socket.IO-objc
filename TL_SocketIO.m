@@ -134,7 +134,7 @@ NSString* const SocketIOException = @"SocketIOException";
         
         // do handshake via HTTP request
         NSString *protocol = _useSecure ? @"https" : @"http";
-        NSString *port = _port ? [NSString stringWithFormat:@":%d", _port] : @"";
+        NSString *port = _port ? [NSString stringWithFormat:@":%ld", (long)_port] : @"";
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970] * 1000;
         NSString *handshakeUrl = [NSString stringWithFormat:kHandshakeURL, protocol, _host, port, kResourceName, time, query];
         
@@ -174,7 +174,7 @@ NSString* const SocketIOException = @"SocketIOException";
 - (void) disconnectForced
 {
     NSString *protocol = [self useSecure] ? @"https" : @"http";
-    NSString *port = _port ? [NSString stringWithFormat:@":%d", _port] : @"";
+    NSString *port = _port ? [NSString stringWithFormat:@":%ld", (long)_port] : @"";
     NSString *urlString = [NSString stringWithFormat:kForceDisconnectURL, protocol, _host, port, kResourceName, _sid];
     NSURL *url = [NSURL URLWithString:urlString];
     DEBUGLOG(@"Force disconnect at: %@", urlString);
