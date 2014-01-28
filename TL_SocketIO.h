@@ -30,7 +30,7 @@
 
 typedef void(^SocketIOCallback)(id argsData);
 
-extern NSString* const SocketIOError;
+extern NSString* const TL_SocketIOError;
 
 typedef enum {
     SocketIOServerRespondedWithInvalidConnectionData = -1,

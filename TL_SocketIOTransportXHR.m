@@ -202,7 +202,7 @@ static NSString* kSecureXHRPortURL = @"https://%@:%d/socket.io/1/xhr-polling/%@"
         [errorInfo setValue:data forKey:@"data"];
         
         if ([delegate respondsToSelector:@selector(onError:)]) {
-            [delegate onError:[NSError errorWithDomain:SocketIOError
+            [delegate onError:[NSError errorWithDomain:TL_SocketIOError
                                                   code:SocketIODataCouldNotBeSend
                                               userInfo:errorInfo]];
         }

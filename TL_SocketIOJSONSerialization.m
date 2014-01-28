@@ -23,7 +23,7 @@
 
 #import "TL_SocketIOJSONSerialization.h"
 
-extern NSString * const SocketIOException;
+extern NSString * const TL_SocketIOException;
 
 // covers the methods in SBJson and JSONKit
 @interface NSObject (SocketIOJSONSerialization)
@@ -70,7 +70,7 @@ extern NSString * const SocketIOException;
 //    }
     
     // unable to find a suitable JSON deseralizer
-    [NSException raise:SocketIOException format:@"socket.IO-objc requires SBJson, JSONKit or an OS that has NSJSONSerialization."];
+    [NSException raise:TL_SocketIOException format:@"socket.IO-objc requires SBJson, JSONKit or an OS that has NSJSONSerialization."];
     
     return nil;
 }
@@ -107,7 +107,7 @@ extern NSString * const SocketIOException;
 //    }
     
     // unable to find a suitable JSON seralizer
-    [NSException raise:SocketIOException format:@"socket.IO-objc requires SBJson, JSONKit or an OS that has NSJSONSerialization."];
+    [NSException raise:TL_SocketIOException format:@"socket.IO-objc requires SBJson, JSONKit or an OS that has NSJSONSerialization."];
     
     return nil;
 }

@@ -125,7 +125,7 @@ static NSString* kSecureSocketPortURL = @"wss://%@:%d/socket.io/1/websocket/%@";
 {
     DEBUGLOG(@"Socket closed. %@", reason);
     if([delegate respondsToSelector:@selector(onDisconnect:)]) {
-        [delegate onDisconnect:[NSError errorWithDomain:SocketIOError
+        [delegate onDisconnect:[NSError errorWithDomain:TL_SocketIOError
                                                    code:SocketIOWebSocketClosed
                                                userInfo:nil]];
     }

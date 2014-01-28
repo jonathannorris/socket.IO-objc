@@ -41,10 +41,10 @@ static NSString* kResourceName = @"socket.io";
 static NSString* kHandshakeURL = @"%@://%@%@/%@/1/?t=%.0f%@";
 static NSString* kForceDisconnectURL = @"%@://%@%@/%@/1/xhr-polling/%@?disconnect";
 
-float const defaultConnectionTimeout = 10.0f;
+float const TL_defaultConnectionTimeout = 10.0f;
 
-NSString* const SocketIOError     = @"SocketIOError";
-NSString* const SocketIOException = @"SocketIOException";
+NSString* const TL_SocketIOError     = @"SocketIOError";
+NSString* const TL_SocketIOException = @"SocketIOException";
 
 # pragma mark -
 # pragma mark SocketIO's private interface
@@ -96,12 +96,12 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) connectToHost:(NSString *)host onPort:(NSInteger)port
 {
-    [self connectToHost:host onPort:port withParams:nil withNamespace:@"" withConnectionTimeout:defaultConnectionTimeout];
+    [self connectToHost:host onPort:port withParams:nil withNamespace:@"" withConnectionTimeout:TL_defaultConnectionTimeout];
 }
 
 - (void) connectToHost:(NSString *)host onPort:(NSInteger)port withParams:(NSDictionary *)params
 {
-    [self connectToHost:host onPort:port withParams:params withNamespace:@"" withConnectionTimeout:defaultConnectionTimeout];
+    [self connectToHost:host onPort:port withParams:params withNamespace:@"" withConnectionTimeout:TL_defaultConnectionTimeout];
 }
 
 - (void) connectToHost:(NSString *)host
@@ -109,7 +109,7 @@ NSString* const SocketIOException = @"SocketIOException";
             withParams:(NSDictionary *)params
          withNamespace:(NSString *)endpoint
 {
-    [self connectToHost:host onPort:port withParams:params withNamespace:endpoint withConnectionTimeout:defaultConnectionTimeout];
+    [self connectToHost:host onPort:port withParams:params withNamespace:endpoint withConnectionTimeout:TL_defaultConnectionTimeout];
 }
 
 - (void) connectToHost:(NSString *)host
@@ -402,7 +402,7 @@ NSString* const SocketIOException = @"SocketIOException";
     }
     
     DEBUGLOG(@"Timed out waiting for heartbeat.");
-    [self onDisconnect:[NSError errorWithDomain:SocketIOError
+    [self onDisconnect:[NSError errorWithDomain:TL_SocketIOError
                                            code:SocketIOHeartbeatTimeout
                                        userInfo:nil]];
 }
@@ -498,7 +498,7 @@ NSString* const SocketIOException = @"SocketIOException";
         switch (idx) {
             case 0: {
                 DEBUGLOG(@"disconnect");
-                [self onDisconnect:[NSError errorWithDomain:SocketIOError
+                [self onDisconnect:[NSError errorWithDomain:TL_SocketIOError
                                                        code:SocketIOServerRespondedWithDisconnect
                                                    userInfo:nil]];
                 break;
@@ -653,7 +653,7 @@ NSString* const SocketIOException = @"SocketIOException";
             
             NSString *error = [NSString stringWithFormat:NSLocalizedString(@"Server returned status code %d", @""), statusCode];
             NSDictionary *errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSLocalizedDescriptionKey];
-            NSError *statusError = [NSError errorWithDomain:SocketIOError
+            NSError *statusError = [NSError errorWithDomain:TL_SocketIOError
                                                        code:statusCode
                                                    userInfo:errorInfo];
             // call error callback manually
@@ -680,7 +680,7 @@ NSString* const SocketIOException = @"SocketIOException";
         NSMutableDictionary *errorInfo = [[NSDictionary dictionaryWithObject:error
                                                                       forKey:NSUnderlyingErrorKey] mutableCopy];
         
-        NSError *err = [NSError errorWithDomain:SocketIOError
+        NSError *err = [NSError errorWithDomain:TL_SocketIOError
                                            code:SocketIOHandshakeFailed
                                        userInfo:errorInfo];
         
@@ -752,7 +752,7 @@ NSString* const SocketIOException = @"SocketIOException";
         else {
             DEBUGLOG(@"no transport found that is supported :( -> fail");
             connectionFailed = true;
-            error = [NSError errorWithDomain:SocketIOError
+            error = [NSError errorWithDomain:TL_SocketIOError
                                         code:SocketIOTransportsNotSupported
                                     userInfo:nil];
         }
@@ -762,7 +762,7 @@ NSString* const SocketIOException = @"SocketIOException";
     if (connectionFailed) {
         // error already set!?
         if (error == nil) {
-            error = [NSError errorWithDomain:SocketIOError
+            error = [NSError errorWithDomain:TL_SocketIOError
                                         code:SocketIOServerRespondedWithInvalidConnectionData
                                     userInfo:nil];
         }
