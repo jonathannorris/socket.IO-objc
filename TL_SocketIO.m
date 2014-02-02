@@ -671,7 +671,7 @@ NSString* const TL_SocketIOException = @"SocketIOException";
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
 {
-    NSLog(@"ERROR: handshake failed ... %@", [error localizedDescription]);
+//    NSLog(@"ERROR: handshake failed ... %@", [error localizedDescription]);
     
     _isConnected = NO;
     _isConnecting = NO;
